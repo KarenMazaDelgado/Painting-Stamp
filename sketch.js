@@ -14,7 +14,9 @@ function preload() {
   stampId = params.get("stamp") || "stamp1";
 
   // load the stroke list for the chosen stamp
-  strokes = loadJSON(`stamps/${stampId}.json`);
+  strokes = loadJSON(`stamps/${stampId}.json`, function(data){
+    strokes = data;
+  });
 }
 
 function finishAndReturnHome() {
@@ -47,6 +49,7 @@ function draw() {
   noFill();
   stroke(0);
   strokeWeight(10);
+  stroke(184, 44, 39);
   circle(250, 250, 480);
   pop();
 
@@ -73,7 +76,7 @@ function draw() {
 
 function drawCompletedStrokes() {
   for (let i = 0; i < currentStrokeIndex; i++) {
-    drawStrokePath(strokes[i], color(40, 40, 40), 12, false);
+    drawStrokePath(strokes[i], color(184, 44, 39), 12, false);
   }
 }
 
@@ -82,7 +85,7 @@ function drawCompletedStrokes() {
 function drawCurrentGuide(strokeObj) {
   // guide path
   drawStrokePath(strokeObj, color(255, 204, 0, 180), strokeObj.tolerance * 2, false);
-  drawStrokePath(strokeObj, color(180, 140, 0), 3, false);
+  drawStrokePath(strokeObj, color(184, 44, 39), 3, false);
 
   // start point
   let start = strokeObj.points[0];
@@ -93,9 +96,15 @@ function drawCurrentGuide(strokeObj) {
 
   fill(0, 200, 0);
   circle(start.x, start.y, 16);
+  textSize(15);
+  fill(0);
+  text('S', start.x -4, start.y - 15);
 
   fill(200, 0, 0);
   circle(end.x, end.y, 16);
+  textSize(15);
+  fill(0);
+  text('E', end.x - 4, end.y - 15);
   pop();
 
 }
@@ -130,7 +139,7 @@ function drawUserStroke() {
 
   push();
   noFill();
-  stroke(20, 20, 20);
+  stroke(184, 44, 39);
   strokeWeight(8);
   strokeJoin(ROUND);
   strokeCap(ROUND);
