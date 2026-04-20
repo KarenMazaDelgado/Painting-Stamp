@@ -45,13 +45,14 @@ function setup() {
 function draw() {
   background(245);
 
-  push();
-  noFill();
-  stroke(0);
-  strokeWeight(10);
-  stroke(184, 44, 39);
-  circle(250, 250, 480);
-  pop();
+  //update later for change shape based on stamp
+  // push();
+  // noFill();
+  // stroke(0);
+  // strokeWeight(10);
+  // stroke(184, 44, 39);
+  // circle(250, 250, 480);
+  // pop();
 
   drawCompletedStrokes();
 
