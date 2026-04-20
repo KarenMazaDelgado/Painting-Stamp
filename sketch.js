@@ -1,230 +1,31 @@
-let strokes = [
-  {
-    points: [
-      //1st character (right)
-      { x: 319, y: 218 },
-      { x: 340, y: 218 },
-      { x: 380, y: 218 },
-      { x: 410, y:218 },
-      { x: 434, y: 218 }
-    ],
-    tolerance: 18,
-    startTolerance: 22,
-    endTolerance: 22
-  },
-  {
-    points: [
-      { x: 378, y: 142 },
-      { x: 378, y: 170 },
-      { x: 378, y: 195 },
-      { x: 378, y: 247 },
-      { x: 379, y: 273 }
-    ],
-    tolerance: 18,
-    startTolerance: 22,
-    endTolerance: 22
-  },
-  {
-    points: [
-      { x: 346, y: 265 },
-      { x: 346, y: 288 },
-      { x: 350, y: 317 },
-      { x: 359, y: 337 },
-      { x: 383, y: 344 },
-      { x: 412, y: 338 },
-      { x: 421, y: 308 },
-      { x: 419, y: 263 }
+// drawing/tracing logic.
+// the drawing page selects which stamp to load via the URL:
+// - play.html?stamp=stamp1
+// - play.html?stamp=stamp2
 
-    ],
-    tolerance: 20,
-    startTolerance: 22,
-    endTolerance: 22
-  },
+// default to stamp 1 so play.html with no "?stamp=" still works
+// if "?stamp=" exists we overwrite it in preload()
+let stampId = "stamp1";
+let strokes = [];
+let isComplete = false;
 
-   {
-    points: [
-      { x: 346, y: 281 },
-      { x: 381, y: 285 },
-      { x: 416, y: 284 },
+function preload() {
+  const params = new URLSearchParams(window.location.search);
+  stampId = params.get("stamp") || "stamp1";
 
-    ],
-    tolerance: 20,
-    startTolerance: 22,
-    endTolerance: 22
-  },
-//(2)left
-  {
-    points: [
-      { x: 144, y: 155 },
-      { x: 106, y: 191 },
-      { x: 65, y: 227 },
+  // load the stroke list for the chosen stamp
+  strokes = loadJSON(`stamps/${stampId}.json`, function(data){
+    strokes = data;
+  });
+}
 
-    ],
-    tolerance: 20,
-    startTolerance: 22,
-    endTolerance: 22
-  },
-  {
-    points: [
-      { x: 70, y: 181 },
-      { x: 104, y: 193 },
-      { x: 144, y: 214 },
-
-    ],
-    tolerance: 20,
-    startTolerance: 22,
-    endTolerance: 22
-  },
-  {
-    points: [
-      { x: 123, y: 227 },
-      { x: 91, y: 255 },
-      { x: 59, y: 281 },
-
-    ],
-    tolerance: 20,
-    startTolerance: 22,
-    endTolerance: 22
-  },
-  {
-    points: [
-      { x: 88, y: 231 },
-      { x: 128, y: 253 },
-      { x: 166, y: 273 },
-
-    ],
-    tolerance: 20,
-    startTolerance: 22,
-    endTolerance: 22
-  },
-  {
-    points: [
-      { x: 81, y: 347 },
-      { x: 81, y: 300 },
-      { x: 114, y: 295 },
-      { x: 138, y: 294 },
-      { x: 141, y: 324 },
-      { x: 143, y: 347 },
-
-    ],
-    tolerance: 20,
-    startTolerance: 22,
-    endTolerance: 22
-  },
-  
-  {
-    points: [
-      { x: 115, y: 275 },
-      { x: 114, y: 330 },
-      { x: 116, y: 382 },
-
-    ],
-    tolerance: 20,
-    startTolerance: 22,
-    endTolerance: 22
-  },
-
-    //(3)UP
-    {
-    points: [
-      { x: 173, y: 70 },
-      { x: 238, y: 70 },
-      { x: 301, y: 70 },
-    ],
-    tolerance: 20,
-    startTolerance: 22,
-    endTolerance: 22
-  },
-  
-  {
-    points: [
-      { x: 177, y: 208 },
-      { x: 181, y: 151 },
-      { x: 198, y: 123 },
-      { x: 213, y: 113 },
-      { x: 236, y: 109 },
-      { x: 254, y: 107 },
-      { x: 272, y: 111 },
-      { x: 281, y: 114 },
-      { x: 287, y: 124 },
-      { x: 291, y: 149 },
-      { x: 297, y: 210 },
-
-
-    ],
-    tolerance: 20,
-    startTolerance: 22,
-    endTolerance: 22
-  },
-    {
-    points: [
-      { x: 250, y: 70 },
-      { x: 241, y: 89 },
-      { x: 232, y: 103 },
-      { x: 226, y: 110 },
-      { x: 226, y: 150 },
-      { x: 219, y: 226 },
-      { x: 215, y: 241 },
-
-    ],
-    tolerance: 20,
-    startTolerance: 22,
-    endTolerance: 22
-  },
-  {
-    points: [
-      { x: 256, y: 109 },
-      { x: 259, y: 183 },
-      { x: 265, y: 221 },
-      { x: 270, y: 242 },
-
-    ],
-    tolerance: 20,
-    startTolerance: 22,
-    endTolerance: 22
-  },
-
-  //4th (bottom)
-
-  {
-    points: [
-      { x: 181, y:314 },
-      { x: 186, y: 363 },
-      { x: 208, y: 376 },
-      { x: 228, y: 380 },
-      { x: 269, y: 378 },
-      { x: 288, y: 361 },
-      { x: 295, y: 350 },
-      { x: 300, y: 326 },
-      { x: 301, y: 310 },
-
-    ],
-    tolerance: 20,
-    startTolerance: 22,
-    endTolerance: 22
-  },
-  {
-    points: [
-      { x: 244, y: 333 },
-      { x: 266, y: 309 },
-      { x: 271, y: 284 },
-      { x: 246, y: 281 },
-      { x: 219, y: 290 },
-      { x: 227, y: 313 },
-      { x: 244, y: 335 },
-      { x: 247, y: 378 },
-      { x: 245, y: 407 },
-      { x: 243, y: 415 },
-      { x: 232, y: 426 },
-      { x: 203, y: 435 },
-
-    ],
-    tolerance: 20,
-    startTolerance: 22,
-    endTolerance: 22
-  },
-
-];
+function finishAndReturnHome() {
+  isComplete = true;
+  // returning to index.html clears the canvas for the next stamp
+  setTimeout(() => {
+    window.location.href = "index.html";
+  }, 900);
+}
 
 let currentStrokeIndex = 0;
 let userStroke = [];
@@ -244,25 +45,39 @@ function setup() {
 function draw() {
   background(245);
 
-  push();
-  noFill();
-  stroke(0);
-  strokeWeight(10);
-  circle(250, 250, 480);
-  pop();
+  //update later for change shape based on stamp
+  // push();
+  // noFill();
+  // stroke(0);
+  // strokeWeight(10);
+  // stroke(184, 44, 39);
+  // circle(250, 250, 480);
+  // pop();
 
   drawCompletedStrokes();
 
-  if (currentStrokeIndex < strokes.length) {
+  if (!isComplete && currentStrokeIndex < strokes.length) {
     drawCurrentGuide(strokes[currentStrokeIndex]);
   }
 
   drawUserStroke();
+
+  if (isComplete) {
+    push();
+    noStroke();
+    fill(0, 0, 0, 180);
+    rect(0, 0, width, height);
+    fill(255);
+    textAlign(CENTER, CENTER);
+    textSize(22);
+    text("Done! Returning…", width / 2, height / 2);
+    pop();
+  }
 }
 
 function drawCompletedStrokes() {
   for (let i = 0; i < currentStrokeIndex; i++) {
-    drawStrokePath(strokes[i], color(40, 40, 40), 12, false);
+    drawStrokePath(strokes[i], color(184, 44, 39), 12, false);
   }
 }
 
@@ -271,7 +86,7 @@ function drawCompletedStrokes() {
 function drawCurrentGuide(strokeObj) {
   // guide path
   drawStrokePath(strokeObj, color(255, 204, 0, 180), strokeObj.tolerance * 2, false);
-  drawStrokePath(strokeObj, color(180, 140, 0), 3, false);
+  drawStrokePath(strokeObj, color(184, 44, 39), 3, false);
 
   // start point
   let start = strokeObj.points[0];
@@ -282,9 +97,15 @@ function drawCurrentGuide(strokeObj) {
 
   fill(0, 200, 0);
   circle(start.x, start.y, 16);
+  textSize(15);
+  fill(0);
+  text('S', start.x -4, start.y - 15);
 
   fill(200, 0, 0);
   circle(end.x, end.y, 16);
+  textSize(15);
+  fill(0);
+  text('E', end.x - 4, end.y - 15);
   pop();
 
 }
@@ -319,7 +140,7 @@ function drawUserStroke() {
 
   push();
   noFill();
-  stroke(20, 20, 20);
+  stroke(184, 44, 39);
   strokeWeight(8);
   strokeJoin(ROUND);
   strokeCap(ROUND);
@@ -334,6 +155,14 @@ function drawUserStroke() {
 
 function mousePressed() {
   if (currentStrokeIndex >= strokes.length) return;
+
+  // coordinate capture helper for finding points to trace for each stroke 
+  console.log(`{ x: ${mouseX}, y: ${mouseY} },`);
+  push();
+  fill(255, 0, 0);
+  noStroke();
+  circle(mouseX, mouseY, 6);
+  pop();
 
   let currentStroke = strokes[currentStrokeIndex];
   let start = currentStroke.points[0];
@@ -378,6 +207,7 @@ function mouseReleased() {
     userStroke = [];
 
     if (currentStrokeIndex >= strokes.length) {
+      finishAndReturnHome();
     }
   } else {
     userStroke = [];
